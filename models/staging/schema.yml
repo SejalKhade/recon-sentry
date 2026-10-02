@@ -1,0 +1,47 @@
+version: 2
+
+models:
+  - name: stg_merchant_sales
+    description: "One row per merchant sale. Nulls in remittance_date indicate the merchant has not yet remitted the premium."
+    columns:
+      - name: sale_id
+        tests: [unique, not_null]
+      - name: merchant_id
+        tests: [not_null]
+      - name: product_price
+        tests:
+          - not_null
+      - name: premium_charged
+        tests: [not_null]
+
+  - name: stg_contracts
+    description: "One row per protection contract issued."
+    columns:
+      - name: contract_id
+        tests: [unique, not_null]
+      - name: sale_id
+        tests: [not_null]
+      - name: premium
+        tests: [not_null]
+      - name: coverage_limit
+        tests: [not_null]
+
+  - name: stg_claims
+    description: "One row per approved claim filed against a contract."
+    columns:
+      - name: claim_id
+        tests: [unique, not_null]
+      - name: contract_id
+        tests: [not_null]
+      - name: claim_amount
+        tests: [not_null]
+
+  - name: stg_servicer_reimbursements
+    description: "One row per payment made by the platform to a servicer."
+    columns:
+      - name: reimbursement_id
+        tests: [unique, not_null]
+      - name: claim_id
+        tests: [not_null]
+      - name: paid_amount
+        tests: [not_null]

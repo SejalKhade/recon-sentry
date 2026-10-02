@@ -1,0 +1,162 @@
+[
+  {
+    "break_type": "amount_break",
+    "sale_id": "35b6a82a-307",
+    "detail": "remittance 65.75 vs premium 71.25"
+  },
+  {
+    "break_type": "amount_break",
+    "sale_id": "b0b0df73-f59",
+    "detail": "remittance 15.98 vs premium 17.51"
+  },
+  {
+    "break_type": "amount_break",
+    "sale_id": "33f251f6-c9a",
+    "detail": "remittance 30.27 vs premium 34.48"
+  },
+  {
+    "break_type": "amount_break",
+    "sale_id": "b4b6ff26-8a8",
+    "detail": "remittance 11.5 vs premium 12.34"
+  },
+  {
+    "break_type": "amount_break",
+    "sale_id": "7004ce3a-bc0",
+    "detail": "remittance 38.0 vs premium 44.22"
+  },
+  {
+    "break_type": "amount_break",
+    "sale_id": "e0b831b4-48d",
+    "detail": "remittance 19.84 vs premium 22.08"
+  },
+  {
+    "break_type": "amount_break",
+    "sale_id": "932e6e4d-e10",
+    "detail": "remittance 78.81 vs premium 95.28"
+  },
+  {
+    "break_type": "amount_break",
+    "sale_id": "9bdbdcd9-7e7",
+    "detail": "remittance 12.18 vs premium 16.68"
+  },
+  {
+    "break_type": "timing_break",
+    "sale_id": "c8b06329-43e",
+    "detail": "remittance not yet received"
+  },
+  {
+    "break_type": "timing_break",
+    "sale_id": "b385b602-7d3",
+    "detail": "remittance not yet received"
+  },
+  {
+    "break_type": "timing_break",
+    "sale_id": "44a54058-c99",
+    "detail": "remittance not yet received"
+  },
+  {
+    "break_type": "timing_break",
+    "sale_id": "abf566c5-548",
+    "detail": "remittance not yet received"
+  },
+  {
+    "break_type": "timing_break",
+    "sale_id": "97f11b29-ee2",
+    "detail": "remittance not yet received"
+  },
+  {
+    "break_type": "timing_break",
+    "sale_id": "47f18782-b7c",
+    "detail": "remittance not yet received"
+  },
+  {
+    "break_type": "orphan_contract",
+    "contract_id": "ce03fc7e-5b7",
+    "detail": "contract has no corresponding merchant sale"
+  },
+  {
+    "break_type": "orphan_contract",
+    "contract_id": "af2579af-e86",
+    "detail": "contract has no corresponding merchant sale"
+  },
+  {
+    "break_type": "orphan_contract",
+    "contract_id": "087e6c8f-f6d",
+    "detail": "contract has no corresponding merchant sale"
+  },
+  {
+    "break_type": "orphan_contract",
+    "contract_id": "68c25836-b1b",
+    "detail": "contract has no corresponding merchant sale"
+  },
+  {
+    "break_type": "orphan_contract",
+    "contract_id": "6806cd40-450",
+    "detail": "contract has no corresponding merchant sale"
+  },
+  {
+    "break_type": "orphan_claim",
+    "claim_id": "10054b56-560",
+    "detail": "claim references non-existent contract"
+  },
+  {
+    "break_type": "orphan_claim",
+    "claim_id": "05421dd8-ed8",
+    "detail": "claim references non-existent contract"
+  },
+  {
+    "break_type": "orphan_claim",
+    "claim_id": "4b2ba4dd-5c6",
+    "detail": "claim references non-existent contract"
+  },
+  {
+    "break_type": "orphan_claim",
+    "claim_id": "7b01cd9d-123",
+    "detail": "claim references non-existent contract"
+  },
+  {
+    "break_type": "duplicate_claim",
+    "claim_id": "b3ca226d-2d3",
+    "detail": "claim reimbursed twice"
+  },
+  {
+    "break_type": "duplicate_claim",
+    "claim_id": "792c4001-378",
+    "detail": "claim reimbursed twice"
+  },
+  {
+    "break_type": "duplicate_claim",
+    "claim_id": "577bce82-107",
+    "detail": "claim reimbursed twice"
+  },
+  {
+    "break_type": "overpayment",
+    "reimbursement_id": "1b5573bd-654",
+    "detail": "paid 128.89 exceeds claim amount"
+  },
+  {
+    "break_type": "overpayment",
+    "reimbursement_id": "c4345c67-f72",
+    "detail": "paid 727.51 exceeds claim amount"
+  },
+  {
+    "break_type": "overpayment",
+    "reimbursement_id": "5f5760e9-852",
+    "detail": "paid 378.29 exceeds claim amount"
+  },
+  {
+    "break_type": "overpayment",
+    "reimbursement_id": "0a4c5a50-322",
+    "detail": "paid 516.14 exceeds claim amount"
+  },
+  {
+    "break_type": "coverage_exceeded",
+    "contract_id": "408d1665-c5b",
+    "detail": "cumulative payouts will exceed coverage_limit"
+  },
+  {
+    "break_type": "coverage_exceeded",
+    "contract_id": "923ab818-433",
+    "detail": "cumulative payouts will exceed coverage_limit"
+  }
+]

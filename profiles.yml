@@ -1,0 +1,23 @@
+recon_sentry:
+  target: dev
+  outputs:
+    # Local default: DuckDB file, no accounts needed.
+    dev:
+      type: duckdb
+      path: recon_sentry.duckdb
+      threads: 4
+
+    # Snowflake: credentials come from environment variables, never from this file.
+    #   SNOWFLAKE_ACCOUNT=<orgname-accountname>  SNOWFLAKE_USER=...  SNOWFLAKE_PASSWORD=...
+    # Optional: SNOWFLAKE_ROLE, SNOWFLAKE_WAREHOUSE, SNOWFLAKE_DATABASE, SNOWFLAKE_SCHEMA
+    # Run:  dbt build --profiles-dir . --target snowflake   (or: python scripts/check_snowflake.py)
+    snowflake:
+      type: snowflake
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT', 'not-set') }}"
+      user: "{{ env_var('SNOWFLAKE_USER', 'not-set') }}"
+      password: "{{ env_var('SNOWFLAKE_PASSWORD', 'not-set') }}"
+      role: "{{ env_var('SNOWFLAKE_ROLE', 'ACCOUNTADMIN') }}"
+      warehouse: "{{ env_var('SNOWFLAKE_WAREHOUSE', 'COMPUTE_WH') }}"
+      database: "{{ env_var('SNOWFLAKE_DATABASE', 'RECON_SENTRY') }}"
+      schema: "{{ env_var('SNOWFLAKE_SCHEMA', 'RECON') }}"
+      threads: 4

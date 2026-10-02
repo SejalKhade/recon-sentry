@@ -1,0 +1,77 @@
+{
+  "info": {
+    "_postman_id": "recon-sentry-extend-style",
+    "name": "Recon Sentry - The platform-Style Merchant and Servicer APIs",
+    "description": "Simulated API endpoints matching the shape a merchant or servicer integration would expose. Used by the reconciliation pipeline to pull operational data outside the warehouse.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {"key": "base_url", "value": "https://api.extend-mock.local/v1"},
+    {"key": "api_key", "value": "REPLACE_ME"}
+  ],
+  "item": [
+    {
+      "name": "List merchant sales",
+      "request": {
+        "method": "GET",
+        "header": [
+          {"key": "Authorization", "value": "Bearer {{api_key}}"},
+          {"key": "Accept", "value": "application/json"}
+        ],
+        "url": {
+          "raw": "{{base_url}}/merchants/{{merchant_id}}/sales?from={{from_date}}&to={{to_date}}",
+          "host": ["{{base_url}}"],
+          "path": ["merchants", "{{merchant_id}}", "sales"],
+          "query": [
+            {"key": "from", "value": "{{from_date}}"},
+            {"key": "to", "value": "{{to_date}}"}
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get contract detail",
+      "request": {
+        "method": "GET",
+        "header": [{"key": "Authorization", "value": "Bearer {{api_key}}"}],
+        "url": {
+          "raw": "{{base_url}}/contracts/{{contract_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["contracts", "{{contract_id}}"]
+        }
+      }
+    },
+    {
+      "name": "Servicer claim submissions",
+      "request": {
+        "method": "GET",
+        "header": [{"key": "Authorization", "value": "Bearer {{api_key}}"}],
+        "url": {
+          "raw": "{{base_url}}/servicers/{{servicer_id}}/claims?status=approved",
+          "host": ["{{base_url}}"],
+          "path": ["servicers", "{{servicer_id}}", "claims"],
+          "query": [{"key": "status", "value": "approved"}]
+        }
+      }
+    },
+    {
+      "name": "Reconciliation break report",
+      "request": {
+        "method": "POST",
+        "header": [
+          {"key": "Authorization", "value": "Bearer {{api_key}}"},
+          {"key": "Content-Type", "value": "application/json"}
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"merchant_id\": \"M001\",\n  \"as_of_date\": \"2025-07-01\",\n  \"break_types\": [\"amount_break\", \"timing_break\"]\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/reconciliation/breaks",
+          "host": ["{{base_url}}"],
+          "path": ["reconciliation", "breaks"]
+        }
+      }
+    }
+  ]
+}

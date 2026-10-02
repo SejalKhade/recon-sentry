@@ -1,0 +1,54 @@
+version: 2
+
+models:
+  - name: fct_recon_breaks
+    description: >
+      Canonical fact table of all reconciliation breaks. One row per break.
+      This is the table the Streamlit dashboard and any downstream reports
+      should query. Regenerated on every dbt run.
+    columns:
+      - name: break_key
+        description: "Surrogate key for the break."
+        tests: [unique, not_null]
+      - name: break_type
+        description: "Category of break. One of: orphan_contract, timing_break, amount_break, orphan_claim, duplicate_claim, overpayment, coverage_exceeded."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['orphan_contract', 'timing_break', 'amount_break', 'orphan_claim', 'duplicate_claim', 'overpayment', 'coverage_exceeded']
+      - name: severity
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['high', 'medium', 'low']
+      - name: entity_type
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['contract', 'claim', 'reimbursement']
+      - name: entity_id
+        tests: [not_null]
+      - name: amount_at_risk
+        tests: [not_null]
+      - name: days_open
+        tests: [not_null]
+
+  - name: fct_daily_break_snapshot
+    description: >
+      Append-only point-in-time capture of the break state on each run.
+      Enables trend analysis (e.g. is the number of open breaks growing
+      or shrinking over time). Incremental materialization.
+    columns:
+      - name: snapshot_date
+        tests: [not_null]
+      - name: break_key
+        tests: [not_null]
+      - name: break_type
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['orphan_contract', 'timing_break', 'amount_break', 'orphan_claim', 'duplicate_claim', 'overpayment', 'coverage_exceeded']

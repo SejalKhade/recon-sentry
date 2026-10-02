@@ -1,0 +1,15 @@
+# dbt
+target/
+dbt_packages/
+logs/
+.user.yml
+
+# local warehouse and caches
+*.duckdb
+*.duckdb.wal
+__pycache__/
+.pytest_cache/
+.prefect/
+
+# secrets
+.env

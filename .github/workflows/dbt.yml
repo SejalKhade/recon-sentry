@@ -1,0 +1,82 @@
+name: dbt CI
+
+# Every PR and push to main: lint for warehouse-specific SQL, build the whole dbt project
+# (seeds + models + 48 tests) on DuckDB, run the Prefect orchestration tests, and keep dbt artifacts.
+# A Snowflake job runs only when the repository has Snowflake secrets configured.
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  duckdb:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Portability lint (no DuckDB-only or Snowflake-only SQL)
+        run: python scripts/portability_check.py
+
+      - name: Generate synthetic data
+        run: python data_generator.py
+
+      - name: dbt debug
+        run: dbt debug --profiles-dir .
+
+      - name: dbt build (seed + run + test)
+        run: dbt build --profiles-dir .
+
+      - name: dbt docs generate
+        run: dbt docs generate --profiles-dir .
+
+      - name: Orchestration tests (Prefect flow, retry behaviour)
+        run: pytest flows -q
+
+      - name: Upload dbt artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dbt-artifacts
+          path: |
+            target/manifest.json
+            target/run_results.json
+            target/catalog.json
+          if-no-files-found: warn
+          retention-days: 14
+
+  snowflake:
+    # Runs only when SNOWFLAKE_* secrets exist in the repository settings.
+    runs-on: ubuntu-latest
+    env:
+      SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+      SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
+      SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        if: env.SNOWFLAKE_ACCOUNT != ''
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt -r requirements-snowflake.txt
+      - name: Build on Snowflake
+        if: env.SNOWFLAKE_ACCOUNT != ''
+        run: python scripts/check_snowflake.py
+      - name: Skipped (no Snowflake secrets configured)
+        if: env.SNOWFLAKE_ACCOUNT == ''
+        run: echo "Snowflake secrets not set; skipping."

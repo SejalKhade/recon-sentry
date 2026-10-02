@@ -1,0 +1,44 @@
+version: 2
+
+sources:
+  - name: raw
+    schema: "{{ target.schema }}"
+    description: "Raw seeded data representing the platform's operational systems."
+    tables:
+      - name: merchants
+        description: "Merchant partners selling protection plans."
+        columns:
+          - name: merchant_id
+            tests: [unique, not_null]
+      - name: servicers
+        description: "Service partners fulfilling claims."
+        columns:
+          - name: servicer_id
+            tests: [unique, not_null]
+      - name: merchant_sales
+        description: "Raw sales records from merchant commerce systems (source of truth for what was sold)."
+        columns:
+          - name: sale_id
+            tests: [unique, not_null]
+          - name: merchant_id
+            tests:
+              - not_null
+              - relationships:
+                  arguments:
+                    to: source('raw', 'merchants')
+                    field: merchant_id
+      - name: contracts
+        description: "Protection contracts issued by the platform."
+        columns:
+          - name: contract_id
+            tests: [unique, not_null]
+      - name: claims
+        description: "Claims filed by customers via servicers."
+        columns:
+          - name: claim_id
+            tests: [unique, not_null]
+      - name: servicer_reimbursements
+        description: "Payments the platform made to servicers for approved claims."
+        columns:
+          - name: reimbursement_id
+            tests: [unique, not_null]

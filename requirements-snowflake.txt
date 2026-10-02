@@ -1,0 +1,2 @@
+# Only needed to run against Snowflake (see scripts/check_snowflake.py)
+dbt-snowflake>=1.10

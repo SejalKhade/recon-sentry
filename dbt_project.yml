@@ -1,0 +1,48 @@
+name: 'recon_sentry'
+version: '1.0.0'
+config-version: 2
+
+profile: 'recon_sentry'
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+test-paths: ["tests"]
+macro-paths: ["macros"]
+
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  recon_sentry:
+    staging:
+      +materialized: view
+    intermediate:
+      +materialized: view
+    marts:
+      +materialized: table
+    analytics:
+      +materialized: table
+
+seeds:
+  recon_sentry:
+    merchants:
+      +column_types:
+        merchant_id: VARCHAR
+    servicers:
+      +column_types:
+        servicer_id: VARCHAR
+    merchant_sales:
+      +column_types:
+        sale_date: VARCHAR
+        remittance_date: VARCHAR
+    contracts:
+      +column_types:
+        issued_date: VARCHAR
+    claims:
+      +column_types:
+        claim_date: VARCHAR
+    servicer_reimbursements:
+      +column_types:
+        paid_date: VARCHAR
