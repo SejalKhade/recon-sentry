@@ -1,12 +1,12 @@
 {
   "info": {
-    "_postman_id": "recon-sentry-extend-style",
+    "_postman_id": "recon-sentry-platform-style",
     "name": "Recon Sentry - The platform-Style Merchant and Servicer APIs",
     "description": "Simulated API endpoints matching the shape a merchant or servicer integration would expose. Used by the reconciliation pipeline to pull operational data outside the warehouse.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
-    {"key": "base_url", "value": "https://api.extend-mock.local/v1"},
+    {"key": "base_url", "value": "https://api.platform-mock.local/v1"},
     {"key": "api_key", "value": "REPLACE_ME"}
   ],
   "item": [
