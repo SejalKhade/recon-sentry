@@ -3,6 +3,7 @@ One-command proof that Recon Sentry runs on a REAL Snowflake account.
 
 Setup (free 30-day trial is enough):
     pip install -r requirements-snowflake.txt
+    # (creates the database for you if it does not exist)
     export SNOWFLAKE_ACCOUNT=<orgname-accountname>   # Snowsight > account menu > copy account identifier
     export SNOWFLAKE_USER=...
     export SNOWFLAKE_PASSWORD=...
@@ -39,6 +40,21 @@ def main() -> int:
     if missing:
         print(f"Missing environment variables: {missing}. See the docstring at the top of this file.")
         return 2
+
+    # dbt creates the schema but NOT the database, so create it first (a trial account has none for us).
+    try:
+        import snowflake.connector
+        conn = snowflake.connector.connect(
+            account=os.environ["SNOWFLAKE_ACCOUNT"], user=os.environ["SNOWFLAKE_USER"],
+            password=os.environ["SNOWFLAKE_PASSWORD"], role=os.environ.get("SNOWFLAKE_ROLE", "ACCOUNTADMIN"),
+            warehouse=os.environ.get("SNOWFLAKE_WAREHOUSE", "COMPUTE_WH"))
+        db = os.environ.get("SNOWFLAKE_DATABASE", "RECON_SENTRY")
+        conn.cursor().execute(f"CREATE DATABASE IF NOT EXISTS {db}")
+        conn.close()
+        print(f"Database {db} is ready.")
+    except Exception as e:  # noqa: BLE001 - show the real reason (bad account id, password, role, ...)
+        print(f"Could not connect to Snowflake: {e}")
+        return 1
 
     dbg = dbt("debug")
     if dbg.returncode != 0:
