@@ -26,7 +26,7 @@ python flows/recon_flow.py               # same pipeline as an orchestrated Pref
 | Incremental model with `delete+insert` (`fct_daily_break_snapshot`) | built and re-run without duplicating a day |
 | Models avoid warehouse-specific SQL | `scripts/portability_check.py` in CI (it fails if `date_diff` or aggregate `FILTER` come back) |
 | Orchestration with retries | `pytest flows`: full run, no retry on a failing `dbt test`, retry on a transient failure |
-| Snowflake | Profile and models parse for the Snowflake adapter. **A real Snowflake run is recorded in `docs/snowflake_run.md` once `scripts/check_snowflake.py` has been run.** |
+| Snowflake | Validated on a real Snowflake trial account (AWS US-East-2). `dbt build --target snowflake`: **PASS=64 WARN=0 ERROR=0** in 18.6s. Full output in [`docs/snowflake_run.md`](docs/snowflake_run.md). |
 
 ## Architecture
 
